@@ -16,7 +16,7 @@ var commentRoutes = require("./routes/comments"),
 	petRoutes     = require("./routes/pets"),
 	indexRoutes   = require("./routes/index")
 
-mongoose.connect('mongodb+srv://wyalwy:tr4ining@cluster0-zkody.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect("mongodb+srv://wyalwy:tr4ining@cluster0-zkody.mongodb.net/test?retryWrites=true&w=majority", {
 	useNewUrlParser: true,
 	useCreateIndex: true});
 app.use(bodyParser.urlencoded({extended: true}));
@@ -50,6 +50,10 @@ app.use("/pets", petRoutes);
 app.use("/pets/:id/comments", commentRoutes);
 
 // masalah disini, atau karena gak exit mongod. ada cara atasinya di awal
-app.listen(3000, () => {
-	console.log('Server Has Started!');
+// app.listen(3000, () => {
+// 	console.log('Server Has Started!');
+// });
+
+app.listen(process.env.PORT, process.env.IP, function(){
+   console.log("The PetMeow Server Has Started!");
 });
