@@ -1,28 +1,28 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
-var Pet = require("../models/pet");
+var Place = require("../models/place");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
 // Comments new
 router.get("/new", middleware.isLoggedIn, function(req, res){
-	//find pet by id
-	Pet.findById(req.params.id, function(err, pet){
+	//find place by id
+	Place.findById(req.params.id, function(err, place){
 		if(err){
 			console.log(err);
 		} else {
-			res.render("comments/new", {pet: pet});
+			res.render("comments/new", {place: place});
 		}
 	})
 });
 
 // Comments Create
 router.post("/", middleware.isLoggedIn, function(req, res){
-	//lockup pet using ID
-	Pet.findById(req.params.id, function(err, pet){
+	//lockup place using ID
+	Place.findById(req.params.id, function(err, place){
 		if(err){
 			console.log(err);
-			res.redirect("/pets");
+			res.redirect("/places");
 		} else {
 			Comment.create(req.body.comment, function(err, comment){
 				if(err){
@@ -34,11 +34,11 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 					comment.author.username = req.user.username;
 					// save comment
 					comment.save();
-					pet.comments.push(comment);
-					pet.save();
+					place.comments.push(comment);
+					place.save();
 					console.log(comment);
 					req.flash("success", "Successfully added comment");
-					res.redirect('/pets/' + pet._id);
+					res.redirect('/places/' + place._id);
 				}
 			});
 		}
@@ -47,16 +47,16 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
-	Pet.findById(req.params.id, function(err, foundPet){
-		if(err || !foundPet){
-			req.flash("error", "No pet found");
+	Place.findById(req.params.id, function(err, foundPlace){
+		if(err || !foundPlace){
+			req.flash("error", "No place found");
 			return res.redirect("back");
 		}
 		Comment.findById(req.params.comment_id, function(err, foundComment){
 			if(err){
 				res.redirect("back");
 			} else {
-				res.render("comments/edit", {pet_id: req.params.id, comment: foundComment});
+				res.render("comments/edit", {place_id: req.params.id, comment: foundComment});
 			}
 		});
 	});
@@ -68,7 +68,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
 		if(err){
 			res.redirect("back");
 		} else {
-			res.redirect("/pets/" + req.params.id);
+			res.redirect("/places/" + req.params.id);
 		}
 	});
 });
@@ -81,7 +81,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
 			res.redirect("back");
 		} else {
 			req.flash("success", "Comment deleted");
-			res.redirect("/pets/" + req.params.id);
+			res.redirect("/places/" + req.params.id);
 		}
 	});
 });

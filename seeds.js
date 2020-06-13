@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Pet = require("./models/pet");
+var Place = require("./models/place");
 var Comment = require("./models/comment");
 
 var data = [
@@ -21,25 +21,25 @@ var data = [
 ]
 
 function seedDB(){
-	//Remove all pets
-	Pet.remove({}, function(err){
+	//Remove all places
+	Place.remove({}, function(err){
 		if(err){
 			console.log(err);
 		}
-		console.log("removed pets!");
+		console.log("removed places!");
 		Comment.remove({}, function(err){
 			if(err){
 				console.log(err);
 			}
 			console.log("removed comments!");
 		
-		//add a few pets
+		//add a few places
 	data.forEach(function(seed){
-		Pet.create(seed, function(err, pet){
+		Place.create(seed, function(err, place){
 			if(err){
 				console.log(err)
 			} else {
-				console.log("added a pet");
+				console.log("added a place");
 				//create a comment
 				Comment.create(
 					{
@@ -49,8 +49,8 @@ function seedDB(){
 						if(err){
 							console.log(err);
 						} else {	
-							pet.comments.push(comment);
-							pet.save();
+							place.comments.push(comment);
+							place.save();
 							console.log("Created new comment");
 						}
 					});

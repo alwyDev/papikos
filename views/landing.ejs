@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PetMeow</title>
+        <title>PapiKos</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/stylesheets/landing.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     </head>
     <body>
     
-    <div class="container">
+    <div>
         <% if(error && error.length > 0){ %>
             <div class="alert alert-danger" role="alert">
                 <%= error %>
@@ -22,8 +22,16 @@
     </div>
     
     <div id="landing-header">
- 		<h1>Welcome to PetMeow!</h1>
-		<a href="/pets" class="btn btn-lg btn-success">View All Pets</a>
+ 		<h1>Welcome to PapiKos</h1>
+		<a href="/places" class="btn btn-lg btn-success">View All Places</a>
+		<p>
+           <form action="/places" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="Kos search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-default">
+               </div>
+           </form>
+       </p>
     </div>
     
     <ul class="slideshow">

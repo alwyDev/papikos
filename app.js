@@ -6,14 +6,14 @@ var express 	= require("express"),
 	passport    = require("passport"),
 	LocalStrategy = require("passport-local"),
 	methodOverride= require("method-override"),
-	Pet         = require("./models/pet"),
+	Place       = require("./models/place"),
 	Comment     = require("./models/comment"),
 	User        = require("./models/user"),
 	seedDB      = require("./seeds")
 
 // requiring routes
 var commentRoutes = require("./routes/comments"),
-	petRoutes     = require("./routes/pets"),
+	placeRoutes     = require("./routes/places"),
 	indexRoutes   = require("./routes/index")
 
 mongoose.connect("mongodb+srv://wyalwy:tr4ining@cluster0-zkody.mongodb.net/test?retryWrites=true&w=majority", {
@@ -25,6 +25,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); //SEED THE DATABSE
+
+app.locals.moment = require('moment');
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -46,14 +48,13 @@ app.use(function(req, res, next){
 });
 
 app.use("/", indexRoutes);
-app.use("/pets", petRoutes);
-app.use("/pets/:id/comments", commentRoutes);
+app.use("/places", placeRoutes);
+app.use("/places/:id/comments", commentRoutes);
 
-// masalah disini, atau karena gak exit mongod. ada cara atasinya di awal
-// app.listen(3000, () => {
-// 	console.log('Server Has Started!');
-// });
-
-app.listen(process.env.PORT, process.env.IP, function(){
-   console.log("The PetMeow Server Has Started!");
+app.listen(3000, () => {
+	console.log('Server Has Started!');
 });
+
+// app.listen(process.env.PORT, process.env.IP, function(){
+//    console.log("The Rebahand Server Has Started!");
+// });
